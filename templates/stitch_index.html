@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chromatica - Extract</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+                    "on-secondary-fixed-variant": "#44474b",
+                    "tertiary-container": "#aeb0b2",
+                    "on-primary-container": "#6d3200",
+                    "secondary": "#c4c6cb",
+                    "on-primary": "#522300",
+                    "surface-dim": "#121416",
+                    "secondary-fixed-dim": "#c4c6cb",
+                    "on-surface-variant": "#d9c2b5",
+                    "surface-container-high": "#282a2c",
+                    "surface-bright": "#38393c",
+                    "inverse-surface": "#e2e2e5",
+                    "on-tertiary-container": "#404345",
+                    "surface-tint": "#ffb68a",
+                    "on-error": "#690005",
+                    "surface": "#121416",
+                    "on-secondary-fixed": "#191c20",
+                    "surface-container": "#1e2022",
+                    "surface-variant": "#333537",
+                    "on-surface": "#e2e2e5",
+                    "error-container": "#93000a",
+                    "inverse-primary": "#914c18",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "tertiary-fixed-dim": "#c5c7c9",
+                    "on-tertiary": "#2e3133",
+                    "on-primary-fixed-variant": "#743500",
+                    "tertiary-fixed": "#e1e2e5",
+                    "outline": "#a18d81",
+                    "secondary-container": "#46494d",
+                    "inverse-on-surface": "#2f3133",
+                    "on-error-container": "#ffdad6",
+                    "error": "#ffb4ab",
+                    "on-background": "#e2e2e5",
+                    "background": "#121416",
+                    "surface-container-lowest": "#0c0e10",
+                    "tertiary": "#c9cbce",
+                    "secondary-fixed": "#e1e2e7",
+                    "primary-fixed": "#ffdbc8",
+                    "primary-fixed-dim": "#ffb68a",
+                    "surface-container-highest": "#333537",
+                    "on-secondary": "#2e3135",
+                    "surface-container-low": "#1a1c1e",
+                    "primary-container": "#f39a60",
+                    "on-secondary-container": "#b6b8bd",
+                    "primary": "#ffbc94",
+                    "outline-variant": "#54433a",
+                    "on-primary-fixed": "#321300",
+                    "on-tertiary-fixed": "#191c1e"
+            },
+            borderRadius: {
+                    DEFAULT: "0.125rem",
+                    lg: "0.25rem",
+                    xl: "0.5rem",
+                    full: "0.75rem"
+            },
+            spacing: {
+                    "container-padding": "40px",
+                    "gutter": "24px",
+                    "inspector-width": "360px",
+                    "sidebar-width": "80px",
+                    "base": "8px"
+            },
+            fontFamily: {
+                    "body-md": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "label-sm": ["JetBrains Mono"],
+                    "display-lg": ["Hanken Grotesk"]
+            },
+            fontSize: {
+                    "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                    "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                    "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                    "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500" }],
+                    "display-lg": ["64px", { lineHeight: "72px", letterSpacing: "-0.02em", fontWeight: "700" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #ffbc94, #f39a60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col items-center py-base space-y-6 fixed left-0 top-16 h-[calc(100vh-64px-64px)] w-sidebar-width border-r border-outline-variant bg-background dark:bg-surface-container-lowest z-40">
+<div class="flex-1 flex flex-col items-center space-y-8 mt-4">
+<a aria-label="Dashboard" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">grid_view</span>
+</a>
+<a aria-label="Extract" class="w-10 h-10 flex items-center justify-center rounded-lg text-primary border-l-2 border-primary transition-all duration-300 ease-in-out group bg-surface-container" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">image</span>
+</a>
+<a aria-label="Explore" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">motion_photos_on</span>
+</a>
+<a aria-label="Library" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">bookmark</span>
+</a>
+</div>
+<div class="flex flex-col items-center space-y-6 pb-4">
+<a aria-label="GitHub" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">code</span>
+</a>
+<a aria-label="Twitter" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">chat</span>
+</a>
+<a aria-label="Behance" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">palette</span>
+</a>
+<button aria-label="Scroll Top" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-variant text-on-surface hover:bg-primary hover:text-on-primary transition-all duration-300 mt-4">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+</div>
+</nav>
+<div class="flex-1 flex flex-col min-w-0">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 border-b border-outline-variant flex justify-between items-center h-16 px-gutter w-full bg-background dark:bg-surface-container-lowest z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl">star</span>
+<span class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface font-bold tracking-tight">Chromatica</span>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-label-sm text-label-sm uppercase tracking-wider">
+<a class="text-primary border-b-2 border-primary pb-1 active:opacity-80 active:scale-95 transition-all" href="#">EXTRACT</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors active:opacity-80 active:scale-95" href="#">EXPLORE</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors active:opacity-80 active:scale-95" href="#">GRADIENTS</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors active:opacity-80 active:scale-95" href="#">ABOUT</a>
+</nav>
+<div class="flex items-center gap-4">
+<button aria-label="dark_mode" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-variant text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm">dark_mode</span>
+</button>
+<button class="hidden md:flex items-center gap-2 px-4 h-10 rounded-full border border-outline-variant hover:border-primary text-on-surface hover:text-primary transition-all font-label-sm text-label-sm">
+                    New Image
+                    <span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden md:ml-sidebar-width relative">
+<!-- Left Column: Upload -->
+<section class="w-full md:w-[400px] lg:w-[450px] p-container-padding flex flex-col overflow-y-auto hide-scrollbar shrink-0">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">TURN IMAGES INTO COLOR PALETTES</p>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-2 leading-[0.9]">
+                    Extract.<br/>
+                    Explore.<br/>
+<span class="font-serif italic text-gradient pr-2">Inspire.</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-6 mb-10 max-w-sm">
+                    Upload any image and discover the beautiful colors hiding within it.
+                </p>
+<!-- Dropzone -->
+<div class="relative group cursor-pointer rounded-xl border-2 border-dashed border-outline-variant hover:border-primary hover:bg-primary/5 transition-all duration-300 p-8 flex flex-col items-center justify-center min-h-[240px]">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-surface">upload</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface text-center mb-1">Drop your image here</p>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm text-center">or click to browse</p>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-4 opacity-70">JPG, PNG, WEBP up to 20MB</p>
+<!-- Samples -->
+<div class="mt-12">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-4">Try with a sample</p>
+<div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 cursor-pointer border border-transparent hover:border-primary transition-all">
+<img class="w-full h-full object-cover" data-alt="A macro shot of vibrant layered canyon rock formations with rich orange and dark shadows, perfect for color extraction in a high-end UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1dUcbPtwfov7ISoEOkZay9jgWXzy5WhA2cNJnCg5waGHBDZj7Tyk08aMhcxBWos7txt5a9lGFQU9ystv0C5ytT3q0zEFtvz532kgfrTFEfaI9hOxgnpb4Vg-AkXsv41sO6WWABSx0taaiVGXXwRUun_0EHsLgYuu_RQb8ZBOoO_SEmDaiOIlulBqLWS3LBy5TbIGEo0FAWDiwZ-6x_YvpK45fAZht9uxJxOjp0ep2nFAXmS_GhOJA"/>
+</div>
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 cursor-pointer border border-transparent hover:border-primary transition-all">
+<img class="w-full h-full object-cover" data-alt="A moody, misty forest scene with deep greens and cool grays, viewed from above, ideal for extracting a serene natural color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrsZNVpJwjC0O_vH126azFYSghMSpof3d_Adrett830gQfVgvFuPugb0GeiWk020ey5SxvRGg2Qj9-my3TTqgZ8LM0N6Byh76lFk2Hg-zc-iIbc6qvFZRoToYBRXmtmiSq4kHeXAKE9hgPAbsRgYICabGuiLViCS8IkC2XP2SvSr9sMxhG-Xh7AQdB8SSbtWZ9bpcc-qDP-Jb6y5XurBWdkr8U3T4hu_l5Gt-98JScTpN-AIPpF5j-"/>
+</div>
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 cursor-pointer border border-transparent hover:border-primary transition-all">
+<img class="w-full h-full object-cover" data-alt="A powerful crashing ocean wave with deep blues, teals, and white foam, frozen in time, providing a dynamic cool color palette source." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAy9B21PgC2J1aKe1XiTcWeYIxSL4qCez8Qv9sYrgfvBCjO4FEyof9ycgK49zb3VVsNpxkh8q30HpA0lxH_RNjcTXDkt6vxkWtEE0xUut5uO6R1sN2YJuXqRLvlaEGvB60VbGEvPn14TRWSeYWzTZ4UwLm9VldrhnwAV6mHQ9MjXaRIvz8acdeeZ5ioIDwcdykFP9jKmk-Vqhl6GxyX6GfnwnKHBpTvkVdUokaduSLHE___MlqVerH"/>
+</div>
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 cursor-pointer border border-transparent hover:border-primary transition-all">
+<img class="w-full h-full object-cover" data-alt="A minimalist architectural interior with smooth terracotta walls and soft warm natural lighting, perfect for a subtle, earthy color extraction." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRGNbtPwH2nhBt71_zXdB2av6EFxsOnPu49_2O17d2FN8eziWB_ECfznfuAuCVRze4kfNPIsW996yWN3Ded3xWTXkd6_GDxMz7Iohp3braVnSM671eBNBw5wzDB4byHYwwIUwrR89Cs0KishSppKdplrdWxsWZOSvw6dbp1wjFBf5PWU0wgTP5YGFx7Br8n3S40kGQ4va58qACbsPan2ir6nEFt94BmTOkOFid6utFPCc-kRy2GSO5"/>
+</div>
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 cursor-pointer border border-transparent hover:border-primary transition-all">
+<img class="w-full h-full object-cover" data-alt="Dark, moody tropical plant leaves with deep emerald greens and subtle textural highlights, serving as a dark-mode friendly color source." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7hplCFwcqmGJJ7NIOkvYZHPEE1vEBAG6KgDCEWNpyd5c6PvO4uM9yEM2yelP1fnS5WXQiMnogEISKzcJn15vmjs54THOQHUsR-6eeuawuMb4u2tT5x_yvU7zoJppEcG2lJeEs9Do2dfsyJYAdzBFWKgSaxgtSsZbeonqDqryNw8_IQfrBCPZBRj_V7et4dNqa5iguzD6yJLPKc22GjAGpHrFlUXNUl3eV1qnAByJ2R-ED7nq2XUzf"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Center Column: Image Canvas -->
+<section class="flex-1 p-gutter md:py-container-padding flex items-center justify-center relative min-h-[500px] md:min-h-0 bg-surface-container-lowest">
+<div class="relative w-full max-w-[800px] h-full rounded-2xl overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="A breathtaking, hyper-realistic landscape photo of a jagged mountain peak reflecting perfectly in a still lake at sunset. The lighting is warm and dramatic, casting fiery orange hues on the mountain against a moody, cloudy sky and deep dark green forest foreground, perfectly suited for the dark-mode aesthetic of Chromatica." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Eo9mcA63JOa21wmfQ67y13aKsHDZghWVSIeEJHdlLj8KoHPD549enSR6JbmCzJDEntUavgmli2q5_2V6Uh_Ep2krl9zclAyXM7xRg1XS_0ahwDjRgwVPB_uO_CX0FEdUEvmBczKFxgfUVuulu78Er9iBToEWUjOw2x9f5QR4W_ohMxep0mMULVuD9ypf4nAkGqe_G4CqLZhrZC_Qpl6-BinhlIu_WtJDQ0_3cVg4ErmVdANm9t3P"/>
+<!-- Zoom Controls Overlay -->
+<div class="absolute bottom-6 right-6 flex items-center gap-4 bg-surface-container/60 backdrop-blur-md px-4 py-2 rounded-full border border-outline-variant/30 text-on-surface">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="font-label-sm text-label-sm">100%</span>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+<div class="w-[1px] h-4 bg-outline-variant mx-2"></div>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">fullscreen</span></button>
+</div>
+</div>
+</section>
+<!-- Right Column: Inspector -->
+<aside class="w-full md:w-inspector-width border-l border-outline-variant bg-background flex flex-col overflow-y-auto hide-scrollbar shrink-0">
+<!-- Palette Section -->
+<div class="p-gutter border-b border-outline-variant">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase">PALETTE</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">6 COLORS</span>
+</div>
+<div class="flex h-32 rounded-lg overflow-hidden w-full border border-outline-variant/20 shadow-inner">
+<div class="flex-1 bg-[#F39A60] hover:opacity-90 cursor-pointer transition-opacity"></div>
+<div class="flex-1 bg-[#D1764A] hover:opacity-90 cursor-pointer transition-opacity"></div>
+<div class="flex-1 bg-[#E4B598] hover:opacity-90 cursor-pointer transition-opacity"></div>
+<div class="flex-1 bg-[#5C6668] hover:opacity-90 cursor-pointer transition-opacity"></div>
+<div class="flex-1 bg-[#373E44] hover:opacity-90 cursor-pointer transition-opacity"></div>
+<div class="flex-1 bg-[#262A2E] hover:opacity-90 cursor-pointer transition-opacity"></div>
+</div>
+<div class="flex justify-between mt-4">
+<button class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm">lock_open</span> Lock
+                        </button>
+<button class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm">cycle</span> Regenerate
+                        </button>
+<button class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm">tune</span> Adjust
+                        </button>
+</div>
+</div>
+<!-- Color Details -->
+<div class="p-gutter border-b border-outline-variant">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">COLOR DETAILS</h2>
+<div class="bg-surface-container rounded-xl p-4 border border-outline-variant relative">
+<div class="flex gap-4">
+<div class="w-16 h-24 rounded-lg bg-[#F39A60] shadow-sm shrink-0"></div>
+<div class="flex-1 flex flex-col justify-center">
+<div class="flex items-center gap-2 mb-4 group cursor-pointer w-fit">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold">#F39A60</span>
+<span class="material-symbols-outlined text-sm text-on-surface-variant group-hover:text-primary transition-colors">content_copy</span>
+</div>
+<div class="grid grid-cols-[40px_1fr] gap-y-2 font-label-sm text-label-sm">
+<span class="text-on-surface-variant">RGB</span>
+<span class="text-on-surface">243, 154, 96</span>
+<span class="text-on-surface-variant">HSL</span>
+<span class="text-on-surface">24°, 90%, 66%</span>
+<span class="text-on-surface-variant">LAB</span>
+<span class="text-on-surface">72.2, 38.3, 49.5</span>
+</div>
+</div>
+</div>
+<button class="absolute top-4 right-4 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">star</span>
+</button>
+</div>
+</div>
+<!-- Actions & Export -->
+<div class="p-gutter flex-1">
+<div class="mb-6">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">PALETTE ACTIONS</h2>
+<div class="flex gap-2">
+<button class="flex-1 h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy all
+                            </button>
+<button class="flex-1 h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">download</span> Export
+                            </button>
+<button class="w-10 h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+</div>
+</div>
+<div>
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">EXPORT OPTIONS</h2>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 h-8 rounded border border-outline-variant/50 hover:border-primary text-on-surface-variant hover:text-on-surface font-label-sm text-[10px] flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">image</span> PNG
+                            </button>
+<button class="px-3 h-8 rounded border border-outline-variant/50 hover:border-primary text-on-surface-variant hover:text-on-surface font-label-sm text-[10px] flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">data_object</span> SVG
+                            </button>
+<button class="px-3 h-8 rounded border border-outline-variant/50 hover:border-primary text-on-surface-variant hover:text-on-surface font-label-sm text-[10px] flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">css</span> CSS
+                            </button>
+<button class="px-3 h-8 rounded border border-outline-variant/50 hover:border-primary text-on-surface-variant hover:text-on-surface font-label-sm text-[10px] flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">code_blocks</span> JSON
+                            </button>
+<button class="px-3 h-8 rounded border border-outline-variant/50 hover:border-primary text-on-surface-variant hover:text-on-surface font-label-sm text-[10px] flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[14px]">draft</span> ASE
+                            </button>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer -->
+<footer class="docked full-width bottom-0 h-16 border-t border-outline-variant flex justify-between items-center px-gutter w-full bg-background dark:bg-surface-container-lowest md:ml-sidebar-width shrink-0 z-50">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">format_quote</span>
+<span class="font-body-md text-sm italic mr-4">Colors are the smiles of nature.</span>
+<span class="text-primary text-[10px] tracking-widest uppercase">— LEIGH HUNT</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Chromatica</span>
+</div>
+</footer>
+</div>
+</body></html>

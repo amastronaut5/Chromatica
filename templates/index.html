@@ -1,86 +1,352 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Image Color Palette</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .image-panel {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .palette-panel {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .color-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .color-swatch {
-            width: 80px;
-            height: 40px;
-            border: 1px solid #ccc;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chromatica - Color Palette Extractor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+                    "on-secondary-fixed-variant": "#44474b",
+                    "tertiary-container": "#aeb0b2",
+                    "on-primary-container": "#6d3200",
+                    "secondary": "#c4c6cb",
+                    "on-primary": "#522300",
+                    "surface-dim": "#121416",
+                    "secondary-fixed-dim": "#c4c6cb",
+                    "on-surface-variant": "#d9c2b5",
+                    "surface-container-high": "#282a2c",
+                    "surface-bright": "#38393c",
+                    "inverse-surface": "#e2e2e5",
+                    "on-tertiary-container": "#404345",
+                    "surface-tint": "#ffb68a",
+                    "on-error": "#690005",
+                    "surface": "#121416",
+                    "on-secondary-fixed": "#191c20",
+                    "surface-container": "#1e2022",
+                    "surface-variant": "#333537",
+                    "on-surface": "#e2e2e5",
+                    "error-container": "#93000a",
+                    "inverse-primary": "#914c18",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "tertiary-fixed-dim": "#c5c7c9",
+                    "on-tertiary": "#2e3133",
+                    "on-primary-fixed-variant": "#743500",
+                    "tertiary-fixed": "#e1e2e5",
+                    "outline": "#a18d81",
+                    "secondary-container": "#46494d",
+                    "inverse-on-surface": "#2f3133",
+                    "on-error-container": "#ffdad6",
+                    "error": "#ffb4ab",
+                    "on-background": "#e2e2e5",
+                    "background": "#121416",
+                    "surface-container-lowest": "#0c0e10",
+                    "tertiary": "#c9cbce",
+                    "secondary-fixed": "#e1e2e7",
+                    "primary-fixed": "#ffdbc8",
+                    "primary-fixed-dim": "#ffb68a",
+                    "surface-container-highest": "#333537",
+                    "on-secondary": "#2e3135",
+                    "surface-container-low": "#1a1c1e",
+                    "primary-container": "#f39a60",
+                    "on-secondary-container": "#b6b8bd",
+                    "primary": "#ffbc94",
+                    "outline-variant": "#54433a",
+                    "on-primary-fixed": "#321300",
+                    "on-tertiary-fixed": "#191c1e"
+            },
+            borderRadius: {
+                    DEFAULT: "0.125rem",
+                    lg: "0.25rem",
+                    xl: "0.5rem",
+                    full: "0.75rem"
+            },
+            spacing: {
+                    "container-padding": "40px",
+                    "gutter": "24px",
+                    "inspector-width": "360px",
+                    "sidebar-width": "80px",
+                    "base": "8px"
+            },
+            fontFamily: {
+                    "body-md": ["Hanken Grotesk", "sans-serif"],
+                    "headline-lg-mobile": ["Hanken Grotesk", "sans-serif"],
+                    "headline-lg": ["Hanken Grotesk", "sans-serif"],
+                    "label-sm": ["JetBrains Mono", "monospace"],
+                    "display-lg": ["Hanken Grotesk", "sans-serif"]
+            },
+            fontSize: {
+                    "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                    "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                    "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                    "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500" }],
+                    "display-lg": ["64px", { lineHeight: "72px", letterSpacing: "-0.02em", fontWeight: "700" }]
             }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #ffbc94, #f39a60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
-<body>
-    <h1>Image Color Palette Extractor</h1>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row overflow-hidden">
+<!-- Toast Notification -->
+<div id="toast" class="fixed top-20 right-8 bg-primary text-on-primary-fixed font-label-sm text-label-sm px-4 py-2 rounded-lg shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+    Copied to clipboard!
+</div>
 
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" required>
-        <input type="submit" value="Upload">
-    </form>
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col items-center py-base space-y-6 fixed left-0 top-16 h-[calc(100vh-64px-64px)] w-sidebar-width border-r border-outline-variant bg-background dark:bg-surface-container-lowest z-40">
+<div class="flex-1 flex flex-col items-center space-y-8 mt-4">
+<a aria-label="Dashboard" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 group" href="/">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">grid_view</span>
+</a>
+<a aria-label="Extract" class="w-10 h-10 flex items-center justify-center rounded-lg text-primary border-l-2 border-primary transition-all duration-300 group bg-surface-container" href="/">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">image</span>
+</a>
+</div>
+</nav>
 
-    {% if image_url %}
-    <div class="container">
-        <div class="image-panel">
-            <h3>Uploaded Image:</h3>
-            <img src="{{ image_url }}" style="max-width: 100%; height: auto;">
-        </div>
+<div class="flex-1 flex flex-col min-w-0">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 border-b border-outline-variant flex justify-between items-center h-16 px-gutter w-full bg-background dark:bg-surface-container-lowest z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-2xl">palette</span>
+<span class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface font-bold tracking-tight">Chromatica</span>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-label-sm text-label-sm uppercase tracking-wider">
+<a class="text-primary border-b-2 border-primary pb-1 active:opacity-80 transition-all" href="/">EXTRACT</a>
+</nav>
+<div class="flex items-center gap-4">
+<button onclick="document.getElementById('imageInput').click()" class="flex items-center gap-2 px-4 h-10 rounded-full border border-outline-variant hover:border-primary text-on-surface hover:text-primary transition-all font-label-sm text-label-sm">
+    Upload New Image
+    <span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</header>
 
-        <div class="palette-panel">
-            <h3>Top 10 Colors:</h3>
-            {% for color in color_list %}
-            <div class="color-box">
-                <div class="color-swatch" style="background-color: rgb{{ color.rgb }};"></div>
-                <div>
-                    <div><strong>RGB:</strong> {{ color.rgb }}</div>
-                    <div><strong>HEX:</strong> {{ color.hex }}</div>
-                    <div><strong>Count:</strong>{{ color.count }}</div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col md:flex-row overflow-hidden md:ml-sidebar-width relative">
+<!-- Left Column: Upload -->
+<section class="w-full md:w-[400px] lg:w-[450px] p-container-padding flex flex-col overflow-y-auto hide-scrollbar shrink-0">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">TURN IMAGES INTO COLOR PALETTES</p>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-2 leading-[0.9]">
+    Extract.<br/>
+    Explore.<br/>
+<span class="font-serif italic text-gradient pr-2">Inspire.</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-6 mb-10 max-w-sm">
+    Upload any image and discover the vibrant color palette hiding within it.
+</p>
+
+<!-- Form & Dropzone -->
+<form id="uploadForm" method="POST" enctype="multipart/form-data">
+    <input type="file" name="image" id="imageInput" class="hidden" accept="image/*" onchange="document.getElementById('uploadForm').submit()">
+    <div onclick="document.getElementById('imageInput').click()" id="dropZone" class="relative group cursor-pointer rounded-xl border-2 border-dashed border-outline-variant hover:border-primary hover:bg-primary/5 transition-all duration-300 p-8 flex flex-col items-center justify-center min-h-[240px]">
+    <div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+    <span class="material-symbols-outlined text-on-surface">upload</span>
     </div>
-    {% endif %}
+    <p class="font-body-md text-body-md text-on-surface text-center mb-1">Drop your image here</p>
+    <p class="font-body-md text-body-md text-on-surface-variant text-sm text-center">or click to browse</p>
+    </div>
+</form>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-4 opacity-70">PNG, JPG, JPEG, GIF, WEBP up to 20MB</p>
+</section>
+
+<!-- Center Column: Image Canvas -->
+<section class="flex-1 p-gutter md:py-container-padding flex items-center justify-center relative min-h-[400px] md:min-h-0 bg-surface-container-lowest">
+<div class="relative w-full max-w-[800px] h-full rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center bg-surface-container-low">
+{% if image_url %}
+    <img id="mainImage" class="w-full h-full object-contain max-h-[70vh]" src="{{ image_url }}" alt="Uploaded Image">
+{% else %}
+    <div class="flex flex-col items-center p-12 text-center">
+        <span class="material-symbols-outlined text-6xl text-outline mb-4">image</span>
+        <p class="text-on-surface-variant font-body-md">No image uploaded yet. Upload an image from the left panel to extract its color palette.</p>
+    </div>
+{% endif %}
+</div>
+</section>
+
+<!-- Right Column: Inspector -->
+<aside class="w-full md:w-inspector-width border-l border-outline-variant bg-background flex flex-col overflow-y-auto hide-scrollbar shrink-0">
+{% if color_list %}
+<!-- Palette Section -->
+<div class="p-gutter border-b border-outline-variant">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase">PALETTE</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">{{ color_list|length }} COLORS</span>
+</div>
+<div class="flex h-32 rounded-lg overflow-hidden w-full border border-outline-variant/20 shadow-inner">
+{% for color in color_list %}
+<div onclick="selectColor('{{ color.hex }}', '{{ color.rgb_str }}', '{{ color.hsl }}')" class="flex-1 hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-105" style="background-color: {{ color.hex }}" title="{{ color.hex }}"></div>
+{% endfor %}
+</div>
+</div>
+
+<!-- Color Details -->
+<div class="p-gutter border-b border-outline-variant">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">COLOR DETAILS</h2>
+<div class="bg-surface-container rounded-xl p-4 border border-outline-variant relative">
+<div class="flex gap-4">
+<div id="detailSwatch" class="w-16 h-24 rounded-lg shadow-sm shrink-0" style="background-color: {{ color_list[0].hex }}"></div>
+<div class="flex-1 flex flex-col justify-center">
+<div onclick="copyText(document.getElementById('detailHex').innerText)" class="flex items-center gap-2 mb-4 group cursor-pointer w-fit">
+<span id="detailHex" class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold">{{ color_list[0].hex }}</span>
+<span class="material-symbols-outlined text-sm text-on-surface-variant group-hover:text-primary transition-colors">content_copy</span>
+</div>
+<div class="grid grid-cols-[40px_1fr] gap-y-2 font-label-sm text-label-sm">
+<span class="text-on-surface-variant">RGB</span>
+<span id="detailRgb" class="text-on-surface cursor-pointer hover:text-primary" onclick="copyText(this.innerText)">{{ color_list[0].rgb_str }}</span>
+<span class="text-on-surface-variant">HSL</span>
+<span id="detailHsl" class="text-on-surface cursor-pointer hover:text-primary" onclick="copyText(this.innerText)">{{ color_list[0].hsl }}</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Actions & Export -->
+<div class="p-gutter flex-1">
+<div class="mb-6">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">PALETTE ACTIONS</h2>
+<div class="flex gap-2">
+<button onclick="copyAllHex()" class="flex-1 h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">content_copy</span> Copy All
+</button>
+<button onclick="exportJSON()" class="flex-1 h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">download</span> JSON
+</button>
+</div>
+</div>
+
+<div>
+<h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">EXPORT CSS VARIABLES</h2>
+<button onclick="exportCSS()" class="w-full h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-sm">css</span> Copy CSS Variables
+</button>
+</div>
+</div>
+
+{% else %}
+<div class="p-gutter flex-1 flex flex-col items-center justify-center text-center">
+    <span class="material-symbols-outlined text-4xl text-outline mb-2">palette</span>
+    <p class="text-on-surface-variant font-label-sm text-label-sm">Upload an image to see color inspection & export options.</p>
+</div>
+{% endif %}
+</aside>
+</main>
+
+<!-- Footer -->
+<footer class="docked full-width bottom-0 h-16 border-t border-outline-variant flex justify-between items-center px-gutter w-full bg-background dark:bg-surface-container-lowest md:ml-sidebar-width shrink-0 z-50">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="font-body-md text-sm italic mr-4">Colors are the smiles of nature.</span>
+<span class="text-primary text-[10px] tracking-widest uppercase">— LEIGH HUNT</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-label-sm text-label-sm text-on-surface-variant">© 2026 Chromatica</span>
+</div>
+</footer>
+</div>
+
+<script>
+    const paletteData = [
+        {% if color_list %}
+        {% for color in color_list %}
+        { hex: "{{ color.hex }}", rgb: "{{ color.rgb_str }}", hsl: "{{ color.hsl }}" },
+        {% endfor %}
+        {% endif %}
+    ];
+
+    function selectColor(hex, rgb, hsl) {
+        document.getElementById('detailSwatch').style.backgroundColor = hex;
+        document.getElementById('detailHex').innerText = hex;
+        document.getElementById('detailRgb').innerText = rgb;
+        document.getElementById('detailHsl').innerText = hsl;
+    }
+
+    function showToast(msg = "Copied to clipboard!") {
+        const toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+    }
+
+    function copyText(text) {
+        navigator.clipboard.writeText(text).then(() => showToast(`Copied: ${text}`));
+    }
+
+    function copyAllHex() {
+        const allHex = paletteData.map(c => c.hex).join(', ');
+        navigator.clipboard.writeText(allHex).then(() => showToast("Copied all HEX values!"));
+    }
+
+    function exportJSON() {
+        const jsonStr = JSON.stringify(paletteData, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'chromatica-palette.json';
+        a.click();
+        showToast("Downloaded palette JSON!");
+    }
+
+    function exportCSS() {
+        let cssStr = ":root {\n";
+        paletteData.forEach((c, idx) => {
+            cssStr += `  --color-${idx + 1}: ${c.hex};\n`;
+        });
+        cssStr += "}";
+        navigator.clipboard.writeText(cssStr).then(() => showToast("Copied CSS Variables!"));
+    }
+
+    // Drag and drop handlers
+    const dropZone = document.getElementById('dropZone');
+    if (dropZone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-primary', 'bg-primary/10');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-primary', 'bg-primary/10');
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                document.getElementById('imageInput').files = files;
+                document.getElementById('uploadForm').submit();
+            }
+        });
+    }
+</script>
 </body>
 </html>
-
-
-
-
-

@@ -27,6 +27,25 @@ def allowed_file(filename):
 
 
 
+def rgb_to_hsl(r, g, b):
+    r, g, b = r / 255.0, g / 255.0, b / 255.0
+    mx, mn = max(r, g, b), min(r, g, b)
+    diff = mx - mn
+    l = (mx + mn) / 2
+    if diff == 0:
+        h = s = 0
+    else:
+        s = diff / (1 - abs(2 * l - 1))
+        if mx == r:
+            h = ((g - b) / diff) % 6
+        elif mx == g:
+            h = ((b - r) / diff) + 2
+        else:
+            h = ((r - g) / diff) + 4
+        h = round(h * 60)
+    return f"{int(h)}°, {int(round(s * 100))}%, {int(round(l * 100))}%"
+
+
 @app.route('/',methods=['GET','POST'])
 def home():
     image_url =None
@@ -39,49 +58,34 @@ def home():
                 image.save(image_path)
                 image_url = f"/static/uploads/{image.filename}"
 
-
-                # Image data collection
                 my_img = Image.open(image_path).convert('RGB')
                 img_array = np.array(my_img)
-
                 pixels = img_array.reshape(-1,3)
 
-                # rounded_pixels = (pixels[:, :3] // 10) * 10
-
-
-                #KMEANS CLUSTERING
                 kmeans = KMeans(n_clusters=10,random_state=42).fit(pixels)
-
-                #center of clusters
                 centers = kmeans.cluster_centers_.astype(int)
-
                 labels = kmeans.labels_
                 label_counts = Counter(labels)
 
-
-                # uniquecols,counts = np.unique(pixels,axis=0,return_counts=True)
-                # color_counts = sorted(zip(uniquecols, counts), key=lambda x: -x[1])
                 color_counts = sorted([(tuple(centers[i]), label_counts[i]) for i in range(len(centers))],
                                       key=lambda x: -x[1])
-                delta = [color_delta(centers[0], center) for center in centers]
 
                 for color, count in color_counts:
-                    # if color[3] != 0:  # exclude fully transparent pixels
-                    # clean_color = tuple(int(c) for c in color[:3])  # exclude alpha
-                    # lst.append(clean_color)
-                    rgb_color = tuple(map(int, color))  # This converts np.int64 to int
+                    rgb_color = tuple(map(int, color))
                     hex_color = '#{:02x}{:02x}{:02x}'.format(*rgb_color)
+                    hsl_color = rgb_to_hsl(*rgb_color)
                     lst.append({
                         'rgb': rgb_color,
+                        'rgb_str': f"{rgb_color[0]}, {rgb_color[1]}, {rgb_color[2]}",
                         'hex': hex_color,
+                        'hsl': hsl_color,
                         'count': count
                     })
-
 
                     if len(lst) >= 10:
                         break
 
-    return render_template(template_name_or_list='template_index.html',image_url=image_url,color_list=lst)
+    return render_template('index.html', image_url=image_url, color_list=lst)
 
 
 
@@ -89,7 +93,8 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(debug=True,port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=port)
 
 
 
