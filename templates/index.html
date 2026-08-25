@@ -161,8 +161,8 @@
 </p>
 
 <!-- Form & Dropzone -->
-<form id="uploadForm" method="POST" enctype="multipart/form-data">
-    <input type="file" name="image" id="imageInput" class="hidden" accept="image/*" onchange="document.getElementById('uploadForm').submit()">
+<form id="uploadForm" onsubmit="return false;" method="POST" enctype="multipart/form-data">
+    <input type="file" name="image" id="imageInput" class="hidden" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,image/bmp">
     <div onclick="document.getElementById('imageInput').click()" id="dropZone" class="relative group cursor-pointer rounded-xl border-2 border-dashed border-outline-variant hover:border-primary hover:bg-primary/5 transition-all duration-300 p-8 flex flex-col items-center justify-center min-h-[240px]">
     <div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
     <span class="material-symbols-outlined text-on-surface">upload</span>
@@ -171,33 +171,60 @@
     <p class="font-body-md text-body-md text-on-surface-variant text-sm text-center">or click to browse</p>
     </div>
 </form>
-<p class="font-label-sm text-label-sm text-on-surface-variant mt-4 opacity-70">PNG, JPG, JPEG, GIF, WEBP up to 20MB</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-4 opacity-70">PNG, JPG, JPEG, GIF, WEBP up to 25MB</p>
 </section>
 
 <!-- Center Column: Image Canvas -->
 <section class="flex-1 p-gutter md:py-container-padding flex items-center justify-center relative min-h-[400px] md:min-h-0 bg-surface-container-lowest">
-<div class="relative w-full max-w-[800px] h-full rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center bg-surface-container-low">
-{% if image_url %}
-    <img id="mainImage" class="w-full h-full object-contain max-h-[70vh]" src="{{ image_url }}" alt="Uploaded Image">
-{% else %}
-    <div class="flex flex-col items-center p-12 text-center">
-        <span class="material-symbols-outlined text-6xl text-outline mb-4">image</span>
-        <p class="text-on-surface-variant font-body-md">No image uploaded yet. Upload an image from the left panel to extract its color palette.</p>
+<div class="relative w-full max-w-[800px] h-full rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center bg-surface-container-low min-h-[350px]">
+    <!-- Image Canvas -->
+    <div id="imageCanvasContainer" class="w-full h-full flex items-center justify-center p-2">
+    {% if image_url %}
+        <img id="mainImage" class="w-full h-full object-contain max-h-[70vh] rounded-xl transition-all duration-300" src="{{ image_url }}" alt="Uploaded Image">
+    {% else %}
+        <div id="placeholderView" class="flex flex-col items-center p-12 text-center">
+            <span class="material-symbols-outlined text-6xl text-outline mb-4">image</span>
+            <p class="text-on-surface-variant font-body-md">No image uploaded yet. Upload an image from the left panel to extract its color palette.</p>
+        </div>
+        <img id="mainImage" class="w-full h-full object-contain max-h-[70vh] rounded-xl transition-all duration-300 hidden" src="" alt="Uploaded Image">
+    {% endif %}
     </div>
-{% endif %}
+
+    <!-- Progress & Loading Overlay -->
+    <div id="loadingOverlay" class="absolute inset-0 bg-surface-container-lowest/85 backdrop-blur-md z-30 flex flex-col items-center justify-center transition-all duration-300 opacity-0 pointer-events-none p-6">
+        <div class="bg-surface-container p-8 rounded-2xl border border-outline-variant shadow-2xl max-w-sm w-full flex flex-col items-center text-center">
+            <!-- Pulsing Ring & Spinner -->
+            <div class="relative w-16 h-16 mb-5 flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full border-4 border-primary/20 animate-ping"></div>
+                <div class="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+            </div>
+            
+            <h3 id="progressTitle" class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold mb-1">Uploading Image</h3>
+            <p id="progressSub" class="font-body-md text-on-surface-variant text-xs mb-5">Preparing your file...</p>
+            
+            <!-- Progress Bar Track -->
+            <div class="w-full bg-surface-container-high rounded-full h-3 mb-3 overflow-hidden border border-outline-variant/30 relative">
+                <div id="progressBarFill" class="bg-gradient-to-r from-primary-container to-primary h-full w-0 transition-all duration-150 rounded-full shadow-[0_0_12px_rgba(255,188,148,0.5)]"></div>
+            </div>
+            <div class="w-full flex justify-between font-label-sm text-xs">
+                <span id="progressPercentText" class="text-primary font-bold">0%</span>
+                <span id="progressStatusText" class="text-on-surface-variant">Uploading</span>
+            </div>
+        </div>
+    </div>
 </div>
 </section>
 
 <!-- Right Column: Inspector -->
-<aside class="w-full md:w-inspector-width border-l border-outline-variant bg-background flex flex-col overflow-y-auto hide-scrollbar shrink-0">
+<aside id="inspectorAside" class="w-full md:w-inspector-width border-l border-outline-variant bg-background flex flex-col overflow-y-auto hide-scrollbar shrink-0">
 {% if color_list %}
 <!-- Palette Section -->
 <div class="p-gutter border-b border-outline-variant">
 <div class="flex justify-between items-center mb-4">
 <h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase">PALETTE</h2>
-<span class="font-label-sm text-label-sm text-on-surface-variant">{{ color_list|length }} COLORS</span>
+<span id="colorCountBadge" class="font-label-sm text-label-sm text-on-surface-variant">{{ color_list|length }} COLORS</span>
 </div>
-<div class="flex h-32 rounded-lg overflow-hidden w-full border border-outline-variant/20 shadow-inner">
+<div id="paletteBar" class="flex h-32 rounded-lg overflow-hidden w-full border border-outline-variant/20 shadow-inner">
 {% for color in color_list %}
 <div onclick="selectColor('{{ color.hex }}', '{{ color.rgb_str }}', '{{ color.hsl }}')" class="flex-1 hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-105" style="background-color: {{ color.hex }}" title="{{ color.hex }}"></div>
 {% endfor %}
@@ -270,7 +297,7 @@
 </div>
 
 <script>
-    const paletteData = [
+    let paletteData = [
         {% if color_list %}
         {% for color in color_list %}
         { hex: "{{ color.hex }}", rgb: "{{ color.rgb_str }}", hsl: "{{ color.hsl }}" },
@@ -279,29 +306,36 @@
     ];
 
     function selectColor(hex, rgb, hsl) {
-        document.getElementById('detailSwatch').style.backgroundColor = hex;
-        document.getElementById('detailHex').innerText = hex;
-        document.getElementById('detailRgb').innerText = rgb;
-        document.getElementById('detailHsl').innerText = hsl;
+        const swatch = document.getElementById('detailSwatch');
+        const hexEl = document.getElementById('detailHex');
+        const rgbEl = document.getElementById('detailRgb');
+        const hslEl = document.getElementById('detailHsl');
+        if (swatch) swatch.style.backgroundColor = hex;
+        if (hexEl) hexEl.innerText = hex;
+        if (rgbEl) rgbEl.innerText = rgb;
+        if (hslEl) hslEl.innerText = hsl;
     }
 
     function showToast(msg = "Copied to clipboard!") {
         const toast = document.getElementById('toast');
         toast.innerText = msg;
         toast.style.opacity = '1';
-        setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+        setTimeout(() => { toast.style.opacity = '0'; }, 2500);
     }
 
     function copyText(text) {
+        if (!text) return;
         navigator.clipboard.writeText(text).then(() => showToast(`Copied: ${text}`));
     }
 
     function copyAllHex() {
+        if (!paletteData || paletteData.length === 0) return;
         const allHex = paletteData.map(c => c.hex).join(', ');
         navigator.clipboard.writeText(allHex).then(() => showToast("Copied all HEX values!"));
     }
 
     function exportJSON() {
+        if (!paletteData || paletteData.length === 0) return;
         const jsonStr = JSON.stringify(paletteData, null, 2);
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -313,12 +347,189 @@
     }
 
     function exportCSS() {
+        if (!paletteData || paletteData.length === 0) return;
         let cssStr = ":root {\n";
         paletteData.forEach((c, idx) => {
             cssStr += `  --color-${idx + 1}: ${c.hex};\n`;
         });
         cssStr += "}";
         navigator.clipboard.writeText(cssStr).then(() => showToast("Copied CSS Variables!"));
+    }
+
+    function updateInspectorUI(colorList) {
+        paletteData = colorList.map(c => ({ hex: c.hex, rgb: c.rgb_str, hsl: c.hsl }));
+        const inspectorAside = document.getElementById('inspectorAside');
+        if (!inspectorAside || !colorList || colorList.length === 0) return;
+
+        let paletteBarsHtml = colorList.map(c => 
+            `<div onclick="selectColor('${c.hex}', '${c.rgb_str}', '${c.hsl}')" class="flex-1 hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-105" style="background-color: ${c.hex}" title="${c.hex}"></div>`
+        ).join('');
+
+        inspectorAside.innerHTML = `
+        <div class="p-gutter border-b border-outline-variant">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase">PALETTE</h2>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">${colorList.length} COLORS</span>
+            </div>
+            <div class="flex h-32 rounded-lg overflow-hidden w-full border border-outline-variant/20 shadow-inner">
+                ${paletteBarsHtml}
+            </div>
+        </div>
+
+        <div class="p-gutter border-b border-outline-variant">
+            <h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">COLOR DETAILS</h2>
+            <div class="bg-surface-container rounded-xl p-4 border border-outline-variant relative">
+                <div class="flex gap-4">
+                    <div id="detailSwatch" class="w-16 h-24 rounded-lg shadow-sm shrink-0" style="background-color: ${colorList[0].hex}"></div>
+                    <div class="flex-1 flex flex-col justify-center">
+                        <div onclick="copyText(document.getElementById('detailHex').innerText)" class="flex items-center gap-2 mb-4 group cursor-pointer w-fit">
+                            <span id="detailHex" class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold">${colorList[0].hex}</span>
+                            <span class="material-symbols-outlined text-sm text-on-surface-variant group-hover:text-primary transition-colors">content_copy</span>
+                        </div>
+                        <div class="grid grid-cols-[40px_1fr] gap-y-2 font-label-sm text-label-sm">
+                            <span class="text-on-surface-variant">RGB</span>
+                            <span id="detailRgb" class="text-on-surface cursor-pointer hover:text-primary" onclick="copyText(this.innerText)">${colorList[0].rgb_str}</span>
+                            <span class="text-on-surface-variant">HSL</span>
+                            <span id="detailHsl" class="text-on-surface cursor-pointer hover:text-primary" onclick="copyText(this.innerText)">${colorList[0].hsl}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-gutter flex-1">
+            <div class="mb-6">
+                <h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">PALETTE ACTIONS</h2>
+                <div class="flex gap-2">
+                    <button onclick="copyAllHex()" class="flex-1 h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-2 transition-colors">
+                        <span class="material-symbols-outlined text-sm">content_copy</span> Copy All
+                    </button>
+                    <button onclick="exportJSON()" class="flex-1 h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-2 transition-colors">
+                        <span class="material-symbols-outlined text-sm">download</span> JSON
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <h2 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-4">EXPORT CSS VARIABLES</h2>
+                <button onclick="exportCSS()" class="w-full h-10 rounded-lg border border-outline-variant bg-transparent hover:bg-surface-variant text-on-surface font-label-sm text-label-sm flex items-center justify-center gap-2 transition-colors">
+                    <span class="material-symbols-outlined text-sm">css</span> Copy CSS Variables
+                </button>
+            </div>
+        </div>
+        `;
+    }
+
+    function processImageFile(file) {
+        if (!file) return;
+
+        // Check file type
+        const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp', 'image/bmp'];
+        if (!validTypes.includes(file.type.toLowerCase()) && !file.name.match(/\.(png|jpe?g|gif|webp|bmp)$/i)) {
+            showToast("Invalid file format. Please upload an image!");
+            return;
+        }
+
+        // Instant Client-Side Image Preview
+        const previewUrl = URL.createObjectURL(file);
+        const mainImage = document.getElementById('mainImage');
+        const placeholderView = document.getElementById('placeholderView');
+        if (placeholderView) placeholderView.classList.add('hidden');
+        if (mainImage) {
+            mainImage.src = previewUrl;
+            mainImage.classList.remove('hidden');
+        }
+
+        // Show Progress Bar Overlay
+        const overlay = document.getElementById('loadingOverlay');
+        const fill = document.getElementById('progressBarFill');
+        const title = document.getElementById('progressTitle');
+        const sub = document.getElementById('progressSub');
+        const percentText = document.getElementById('progressPercentText');
+        const statusText = document.getElementById('progressStatusText');
+
+        if (overlay) {
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100', 'pointer-events-auto');
+        }
+        if (fill) fill.style.width = '0%';
+        if (percentText) percentText.innerText = '0%';
+        if (title) title.innerText = 'Uploading Image';
+        if (sub) sub.innerText = `0 KB of ${(file.size / 1024).toFixed(0)} KB transferred`;
+        if (statusText) statusText.innerText = 'Uploading';
+
+        // Perform AJAX upload with progress tracking
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const xhr = new XMLHttpRequest();
+        const startTime = Date.now();
+
+        xhr.upload.onprogress = function (e) {
+            if (e.lengthComputable) {
+                const percent = Math.round((e.loaded / e.total) * 100);
+                if (fill) fill.style.width = percent + '%';
+                if (percentText) percentText.innerText = percent + '%';
+                if (sub) sub.innerText = `${(e.loaded / 1024).toFixed(0)} KB of ${(e.total / 1024).toFixed(0)} KB transferred`;
+                
+                if (percent >= 100) {
+                    if (title) title.innerText = 'Analyzing Image Palette';
+                    if (sub) sub.innerText = 'Running clustering algorithms...';
+                    if (statusText) statusText.innerText = 'Extracting';
+                }
+            }
+        };
+
+        xhr.onload = function () {
+            const duration = Date.now() - startTime;
+            if (xhr.status === 200) {
+                try {
+                    const resp = JSON.parse(xhr.responseText);
+                    if (resp.success) {
+                        if (mainImage) mainImage.src = resp.image_url;
+                        updateInspectorUI(resp.color_list);
+                        showToast(`Palette extracted in ${duration}ms!`);
+                    } else {
+                        showToast(resp.error || "Failed to process image.");
+                    }
+                } catch (err) {
+                    showToast("Error parsing server response.");
+                }
+            } else {
+                showToast(`Server error (${xhr.status}).`);
+            }
+
+            // Hide overlay smoothly after brief completion display
+            if (fill) fill.style.width = '100%';
+            if (percentText) percentText.innerText = '100%';
+            setTimeout(() => {
+                if (overlay) {
+                    overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                    overlay.classList.add('opacity-0', 'pointer-events-none');
+                }
+            }, 300);
+        };
+
+        xhr.onerror = function () {
+            showToast("Network error. Please try again.");
+            if (overlay) {
+                overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+        };
+
+        xhr.open('POST', '/api/extract', true);
+        xhr.send(formData);
+    }
+
+    // Attach File Input Listener
+    const imageInput = document.getElementById('imageInput');
+    if (imageInput) {
+        imageInput.addEventListener('change', function (e) {
+            if (e.target.files && e.target.files.length > 0) {
+                processImageFile(e.target.files[0]);
+            }
+        });
     }
 
     // Drag and drop handlers
@@ -341,12 +552,12 @@
         dropZone.addEventListener('drop', (e) => {
             const dt = e.dataTransfer;
             const files = dt.files;
-            if (files.length > 0) {
-                document.getElementById('imageInput').files = files;
-                document.getElementById('uploadForm').submit();
+            if (files && files.length > 0) {
+                processImageFile(files[0]);
             }
         });
     }
 </script>
 </body>
 </html>
+
