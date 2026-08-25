@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Chromatica - Color Palette Extractor</title>
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -122,8 +123,8 @@
 <a aria-label="Dashboard" class="w-10 h-10 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 group" href="/">
 <span class="material-symbols-outlined group-hover:scale-110 transition-transform">grid_view</span>
 </a>
-<a aria-label="Extract" class="w-10 h-10 flex items-center justify-center rounded-lg text-primary border-l-2 border-primary transition-all duration-300 group bg-surface-container" href="/">
-<span class="material-symbols-outlined group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">image</span>
+<a aria-label="Extract" class="w-10 h-10 flex items-center justify-center rounded-lg text-primary border-l-2 border-primary transition-all duration-300 group bg-surface-container overflow-hidden p-1" href="/">
+<img src="{{ url_for('static', filename='logo.png') }}" alt="Chromatica Icon" class="w-full h-full object-cover rounded group-hover:scale-110 transition-transform">
 </a>
 </div>
 </nav>
@@ -131,8 +132,8 @@
 <div class="flex-1 flex flex-col min-w-0">
 <!-- TopAppBar -->
 <header class="docked full-width top-0 border-b border-outline-variant flex justify-between items-center h-16 px-gutter w-full bg-background dark:bg-surface-container-lowest z-50">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-2xl">palette</span>
+<div class="flex items-center gap-3">
+<img src="{{ url_for('static', filename='logo.png') }}" alt="Chromatica Logo" class="w-9 h-9 rounded-lg shadow-lg border border-outline-variant/40 object-cover">
 <span class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface font-bold tracking-tight">Chromatica</span>
 </div>
 <nav class="hidden md:flex items-center gap-8 font-label-sm text-label-sm uppercase tracking-wider">
