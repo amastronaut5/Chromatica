@@ -111,7 +111,7 @@
         }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row overflow-hidden">
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row overflow-x-hidden overflow-y-auto md:overflow-hidden">
 <!-- Toast Notification -->
 <div id="toast" class="fixed top-20 right-8 bg-primary text-on-primary-fixed font-label-sm text-label-sm px-4 py-2 rounded-lg shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none z-50">
     Copied to clipboard!
@@ -131,77 +131,78 @@
 
 <div class="flex-1 flex flex-col min-w-0">
 <!-- TopAppBar -->
-<header class="docked full-width top-0 border-b border-outline-variant flex justify-between items-center h-16 px-gutter w-full bg-background dark:bg-surface-container-lowest z-50">
+<header class="docked full-width top-0 border-b border-outline-variant flex justify-between items-center h-16 px-4 sm:px-gutter w-full bg-background dark:bg-surface-container-lowest z-50">
 <div class="flex items-center gap-3">
-<img src="{{ url_for('static', filename='logo.png') }}" alt="Chromatica Logo" class="w-9 h-9 rounded-lg shadow-lg border border-outline-variant/40 object-cover">
-<span class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface font-bold tracking-tight">Chromatica</span>
+<img src="{{ url_for('static', filename='logo.png') }}" alt="Chromatica Logo" class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg shadow-lg border border-outline-variant/40 object-cover">
+<span class="font-headline-lg-mobile md:font-headline-lg text-lg sm:text-headline-lg-mobile md:text-headline-lg text-on-surface font-bold tracking-tight">Chromatica</span>
 </div>
 <nav class="hidden md:flex items-center gap-8 font-label-sm text-label-sm uppercase tracking-wider">
 <a class="text-primary border-b-2 border-primary pb-1 active:opacity-80 transition-all" href="/">EXTRACT</a>
 </nav>
 <div class="flex items-center gap-4">
-<button onclick="document.getElementById('imageInput').click()" class="flex items-center gap-2 px-4 h-10 rounded-full border border-outline-variant hover:border-primary text-on-surface hover:text-primary transition-all font-label-sm text-label-sm">
-    Upload New Image
+<button onclick="document.getElementById('imageInput').click()" class="flex items-center gap-2 px-3 sm:px-4 h-9 sm:h-10 rounded-full border border-outline-variant hover:border-primary text-on-surface hover:text-primary transition-all font-label-sm text-xs sm:text-label-sm">
+    <span class="hidden sm:inline">Upload New Image</span>
+    <span class="sm:hidden">Upload</span>
     <span class="material-symbols-outlined text-sm">add</span>
 </button>
 </div>
 </header>
 
 <!-- Main Workspace -->
-<main class="flex-1 flex flex-col md:flex-row overflow-hidden md:ml-sidebar-width relative">
+<main class="flex-1 flex flex-col md:flex-row overflow-x-hidden md:overflow-hidden md:ml-sidebar-width relative">
 <!-- Left Column: Upload -->
-<section class="w-full md:w-[400px] lg:w-[450px] p-container-padding flex flex-col overflow-y-auto hide-scrollbar shrink-0">
-<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">TURN IMAGES INTO COLOR PALETTES</p>
-<h1 class="font-display-lg text-display-lg text-on-surface mb-2 leading-[0.9]">
+<section class="w-full md:w-[400px] lg:w-[450px] p-6 sm:p-container-padding flex flex-col shrink-0">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-2 sm:mb-4">TURN IMAGES INTO COLOR PALETTES</p>
+<h1 class="font-display-lg text-3xl sm:text-display-lg text-on-surface mb-2 leading-[0.9]">
     Extract.<br/>
     Explore.<br/>
 <span class="font-serif italic text-gradient pr-2">Inspire.</span>
 </h1>
-<p class="font-body-md text-body-md text-on-surface-variant mt-6 mb-10 max-w-sm">
+<p class="font-body-md text-sm sm:text-body-md text-on-surface-variant mt-4 sm:mt-6 mb-6 sm:mb-10 max-w-sm">
     Upload any image and discover the vibrant color palette hiding within it.
 </p>
 
 <!-- Form & Dropzone -->
 <form id="uploadForm" onsubmit="return false;" method="POST" enctype="multipart/form-data">
-    <input type="file" name="image" id="imageInput" class="hidden" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp,image/bmp">
-    <div onclick="document.getElementById('imageInput').click()" id="dropZone" class="relative group cursor-pointer rounded-xl border-2 border-dashed border-outline-variant hover:border-primary hover:bg-primary/5 transition-all duration-300 p-8 flex flex-col items-center justify-center min-h-[240px]">
-    <div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+    <input type="file" name="image" id="imageInput" class="hidden" accept="image/*">
+    <div onclick="document.getElementById('imageInput').click()" id="dropZone" class="relative group cursor-pointer rounded-xl border-2 border-dashed border-outline-variant hover:border-primary hover:bg-primary/5 transition-all duration-300 p-6 sm:p-8 flex flex-col items-center justify-center min-h-[200px] sm:min-h-[240px]">
+    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface-container flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
     <span class="material-symbols-outlined text-on-surface">upload</span>
     </div>
-    <p class="font-body-md text-body-md text-on-surface text-center mb-1">Drop your image here</p>
-    <p class="font-body-md text-body-md text-on-surface-variant text-sm text-center">or click to browse</p>
+    <p class="font-body-md text-body-md text-on-surface text-center mb-1">Tap to pick from Camera or Library</p>
+    <p class="font-body-md text-body-md text-on-surface-variant text-xs sm:text-sm text-center">or drop image here</p>
     </div>
 </form>
-<p class="font-label-sm text-label-sm text-on-surface-variant mt-4 opacity-70">PNG, JPG, JPEG, GIF, WEBP up to 25MB</p>
+<p class="font-label-sm text-xs sm:text-label-sm text-on-surface-variant mt-3 sm:mt-4 opacity-70">PNG, JPG, JPEG, HEIC, WEBP up to 25MB</p>
 </section>
 
 <!-- Center Column: Image Canvas -->
-<section class="flex-1 p-gutter md:py-container-padding flex items-center justify-center relative min-h-[400px] md:min-h-0 bg-surface-container-lowest">
-<div class="relative w-full max-w-[800px] h-full rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center bg-surface-container-low min-h-[350px]">
+<section class="flex-1 p-4 sm:p-gutter md:py-container-padding flex items-center justify-center relative min-h-[300px] sm:min-h-[400px] md:min-h-0 bg-surface-container-lowest">
+<div class="relative w-full max-w-[800px] h-full rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center bg-surface-container-low min-h-[280px] sm:min-h-[350px]">
     <!-- Image Canvas -->
     <div id="imageCanvasContainer" class="w-full h-full flex items-center justify-center p-2">
     {% if image_url %}
-        <img id="mainImage" class="w-full h-full object-contain max-h-[70vh] rounded-xl transition-all duration-300" src="{{ image_url }}" alt="Uploaded Image">
+        <img id="mainImage" class="w-full h-full object-contain max-h-[50vh] sm:max-h-[70vh] rounded-xl transition-all duration-300" src="{{ image_url }}" alt="Uploaded Image">
     {% else %}
-        <div id="placeholderView" class="flex flex-col items-center p-12 text-center">
-            <span class="material-symbols-outlined text-6xl text-outline mb-4">image</span>
-            <p class="text-on-surface-variant font-body-md">No image uploaded yet. Upload an image from the left panel to extract its color palette.</p>
+        <div id="placeholderView" class="flex flex-col items-center p-6 sm:p-12 text-center">
+            <span class="material-symbols-outlined text-5xl sm:text-6xl text-outline mb-3 sm:mb-4">image</span>
+            <p class="text-on-surface-variant font-body-md text-sm sm:text-base">No image uploaded yet. Upload an image to extract its color palette.</p>
         </div>
-        <img id="mainImage" class="w-full h-full object-contain max-h-[70vh] rounded-xl transition-all duration-300 hidden" src="" alt="Uploaded Image">
+        <img id="mainImage" class="w-full h-full object-contain max-h-[50vh] sm:max-h-[70vh] rounded-xl transition-all duration-300 hidden" src="" alt="Uploaded Image">
     {% endif %}
     </div>
 
     <!-- Progress & Loading Overlay -->
-    <div id="loadingOverlay" class="absolute inset-0 bg-surface-container-lowest/85 backdrop-blur-md z-30 flex flex-col items-center justify-center transition-all duration-300 opacity-0 pointer-events-none p-6">
-        <div class="bg-surface-container p-8 rounded-2xl border border-outline-variant shadow-2xl max-w-sm w-full flex flex-col items-center text-center">
+    <div id="loadingOverlay" class="absolute inset-0 bg-surface-container-lowest/85 backdrop-blur-md z-30 flex flex-col items-center justify-center transition-all duration-300 opacity-0 pointer-events-none p-4 sm:p-6">
+        <div class="bg-surface-container p-6 sm:p-8 rounded-2xl border border-outline-variant shadow-2xl max-w-sm w-full flex flex-col items-center text-center">
             <!-- Pulsing Ring & Spinner -->
-            <div class="relative w-16 h-16 mb-5 flex items-center justify-center">
+            <div class="relative w-14 h-14 sm:w-16 sm:h-16 mb-4 sm:mb-5 flex items-center justify-center">
                 <div class="absolute inset-0 rounded-full border-4 border-primary/20 animate-ping"></div>
-                <div class="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
             </div>
             
-            <h3 id="progressTitle" class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold mb-1">Uploading Image</h3>
-            <p id="progressSub" class="font-body-md text-on-surface-variant text-xs mb-5">Preparing your file...</p>
+            <h3 id="progressTitle" class="font-headline-lg-mobile text-lg sm:text-headline-lg-mobile text-on-surface font-bold mb-1">Uploading Image</h3>
+            <p id="progressSub" class="font-body-md text-on-surface-variant text-xs mb-4 sm:mb-5">Preparing your file...</p>
             
             <!-- Progress Bar Track -->
             <div class="w-full bg-surface-container-high rounded-full h-3 mb-3 overflow-hidden border border-outline-variant/30 relative">
@@ -217,7 +218,7 @@
 </section>
 
 <!-- Right Column: Inspector -->
-<aside id="inspectorAside" class="w-full md:w-inspector-width border-l border-outline-variant bg-background flex flex-col overflow-y-auto hide-scrollbar shrink-0">
+<aside id="inspectorAside" class="w-full md:w-inspector-width border-t md:border-t-0 md:border-l border-outline-variant bg-background flex flex-col shrink-0">
 {% if color_list %}
 <!-- Palette Section -->
 <div class="p-gutter border-b border-outline-variant">
@@ -277,7 +278,7 @@
 </div>
 
 {% else %}
-<div class="p-gutter flex-1 flex flex-col items-center justify-center text-center">
+<div class="p-gutter flex-1 flex flex-col items-center justify-center text-center py-10">
     <span class="material-symbols-outlined text-4xl text-outline mb-2">palette</span>
     <p class="text-on-surface-variant font-label-sm text-label-sm">Upload an image to see color inspection & export options.</p>
 </div>
@@ -419,15 +420,21 @@
             </div>
         </div>
         `;
+
+        if (window.innerWidth < 768) {
+            setTimeout(() => {
+                inspectorAside.scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
     }
 
     function processImageFile(file) {
         if (!file) return;
 
-        // Check file type
-        const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp', 'image/bmp'];
-        if (!validTypes.includes(file.type.toLowerCase()) && !file.name.match(/\.(png|jpe?g|gif|webp|bmp)$/i)) {
-            showToast("Invalid file format. Please upload an image!");
+        // Flexible mobile image check
+        const isImage = !file.type || file.type.startsWith('image/') || file.name.match(/\.(png|jpe?g|gif|webp|bmp|heic|heif)$/i);
+        if (!isImage) {
+            showToast("Please select a valid image file!");
             return;
         }
 
