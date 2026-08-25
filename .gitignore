@@ -208,4 +208,6 @@ __marimo__/
 
 # Antigravity agents configuration
 .agents/
-
+# UPLOADED IMAGES
+static/uploads/*
+!static/uploads/.gitkeep
