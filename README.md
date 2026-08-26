@@ -1,7 +1,7 @@
 <div align="center">
 
 # Chromatica
-![Uploading image.png…]()
+<img width="1919" height="955" alt="image" src="https://github.com/user-attachments/assets/b69fc55a-0582-4d85-903f-d129c3dbe065" />
 
 ### *Intelligent Image Color Palette Extraction via K-Means Clustering*
 
