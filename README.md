@@ -1,6 +1,7 @@
 <div align="center">
 
 # Chromatica
+![Uploading image.png…]()
 
 ### *Intelligent Image Color Palette Extraction via K-Means Clustering*
 
