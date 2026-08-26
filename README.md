@@ -8,8 +8,10 @@
 [![Flask](https://img.shields.io/badge/Flask-3.0%2B-000000?style=flat-square&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-F7931E?style=flat-square&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![Deploy: Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=flat-square&logo=render&logoColor=white)](https://render.com/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-chromashift.onrender.com-ffbc94?style=flat-square&logo=render&logoColor=black)](https://chromashift.onrender.com/)
 [![Server: Gunicorn](https://img.shields.io/badge/Server-Gunicorn-499848?style=flat-square&logo=gunicorn&logoColor=white)](https://gunicorn.org/)
+
+### 🌐 [chromashift.onrender.com](https://chromashift.onrender.com/)
 
 > **Chromatica** is a production-grade web application that extracts the dominant color palette from any uploaded image using unsupervised machine learning (K-Means clustering). It exposes both a rich interactive UI and a clean REST API, and is engineered for sub-50ms processing latency on commodity hardware.
 
@@ -302,7 +304,7 @@ Returns the interactive Chromatica web interface.
 **Example — cURL:**
 
 ```bash
-curl -X POST https://your-app.onrender.com/api/extract \
+curl -X POST https://chromashift.onrender.com/api/extract \
   -F "image=@/path/to/photo.jpg" \
   | python -m json.tool
 ```
@@ -314,7 +316,7 @@ import requests
 
 with open("photo.jpg", "rb") as f:
     response = requests.post(
-        "https://your-app.onrender.com/api/extract",
+        "https://chromashift.onrender.com/api/extract",
         files={"image": f}
     )
 
